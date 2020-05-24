@@ -7,6 +7,13 @@ bytes a pointer &x to their argument x, casting the pointer to be of type unsign
 char *. This cast indicates to the compiler that the program should consider the
 pointer to be to a sequence of bytes rather than to an object of the original data
 type. This pointer will then be to the lowest byte address occupied by the object.
+
+In function show_bytes, we see the close connection between pointers and arrays, as will
+be discussed in detail in Section 3.8. We see that this function has an argument start of type byte_
+pointer (which has been defined to be a pointer to unsigned char), but we see the array reference
+start[i] on line 8. In C, we can dereference a pointer with array notation, and we can reference array
+elements with pointer notation. In this example, the reference start[i] indicates that we want to read
+the byte that is i positions beyond the location pointed to by start.
 */
 
 #include <stdio.h>
