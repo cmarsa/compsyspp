@@ -17,9 +17,14 @@ the byte that is i positions beyond the location pointed to by start.
 */
 
 #include <stdio.h>
+#include <string.h>
 
 typedef unsigned char *byte_pointer;
 
+
+/*
+ * function denitions
+ */
 void show_bytes(byte_pointer start, size_t len) {
     int i;
     printf(" |");
@@ -41,6 +46,13 @@ void show_pointer(void *x) {
     show_bytes((byte_pointer) &x, sizeof(void *));
 }
 
+void show_string(const char *m) {
+    show_bytes((byte_pointer) m, strlen(m));
+}
+
+/*
+ * tester functions
+ */
 void test_show_bytes(int val) {
     int ival = val;
     float fval = (float) ival;
@@ -50,6 +62,14 @@ void test_show_bytes(int val) {
     show_pointer(pval);
 }
 
+void test_show_string(char* str) {
+    show_string(str);
+}
+
+
+/*
+ * main
+ */
 int main() {
-    test_show_bytes(12345);
+    test_show_string("mnopqr");
 }
