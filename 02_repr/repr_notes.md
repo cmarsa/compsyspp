@@ -195,3 +195,14 @@ the other, and hence the arguments degenerate into bickering about sociopolitica
 issues. As long as one of the conventions is selected and adhered to consistently,
 the choice is arbitrary
 
+Different machine types
+use different and incompatible instructions and encodings. Even identical proces-
+sors running different operating systems have differences in their coding conven-
+tions and hence are not binary compatible. Binary code is seldom portable across
+different combinations of machine and operating system.
+A fundamental concept of computer systems is that a program, from the
+perspective of the machine, is simply a sequence of bytes. The machine has no
+information about the original source program, except perhaps some auxiliary
+tables maintained to aid in debugging.
+
+### Introduction to Boolean algebra
