@@ -1,4 +1,4 @@
-# A Tout of computer systems: notes
+# A Tour of computer systems: notes
 Files such as hello.c that consist exclusively
 of ASCII characters are known as text files. All other files are known as binary
 files.
@@ -20,7 +20,7 @@ disk file. Object programs are also referred to as executable object files.
 
 On a Unix system, the translation from source file to object file is performed
 by a compiler driver:
-```
+```bash
 linux> gcc -o hello hello.c
 ```
 
