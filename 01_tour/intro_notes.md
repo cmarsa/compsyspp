@@ -201,3 +201,11 @@ are typically more efficient than processes. Multi-threading is also one way to 
 programs run faster when multiple processors are available.
 
 ### Virtual Memory
+Virtual memory is an abstraction that provides each process with the illusion that it
+has exclusive use of the main memory. Each process has the same uniform view of
+memory, which is known as its _virtual address space_.
+In Linux, the topmost region of the address space is reserved for code and data
+in the operating system that is common to all processes. The lower region of the
+address space holds the code and data defined by the user’s process. Note that
+addresses in the figure increase from the bottom to the top.
+![virtual_address](res/virtual_address_space.png)
