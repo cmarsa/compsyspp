@@ -154,4 +154,50 @@ struction set architecture, but in fact modern processors use far more complex
 mechanisms to speed up program execution. Thus, we can distinguish the pro-
 cessor’s instruction set architecture, describing the effect of each machine-code
 instruction, from its microarchitecture, describing how the processor is actually
-implemented.
+implemented. 
+
+
+## The Operating System Manages the Hardware
+The operating system has two primary purposes: (1) to protect the hardware
+from misuse by runaway applications and (2) to provide applications with simple
+and uniform mechanisms for manipulating complicated and often wildly different
+low-level hardware devices. The operating system achieves both goals via the
+fundamental abstractions: processes, virtual memory, and
+files. As this figure suggests, files are abstractions for I/O devices, virtual memory
+is an abstraction for both the main memory and disk I/O devices, and processes
+are abstractions for the processor, main memory, and I/O devices. We will discuss
+each in turn.
+
+### Processes
+When a program such as hello runs on a modern system, the operating system
+provides the illusion that the program is the only one running on the system. The
+program appears to have exclusive use of both the processor, main memory, and
+I/O devices. The processor appears to execute the instructions in the program, one
+after the other, without interruption. And the code and data of the program appear
+to be the only objects in the system’s memory. These illusions are provided by the
+notion of a process, one of the most important and successful ideas in computer
+science.
+
+A process is the operating system’s abstraction for a running program. Multi-
+ple processes can run concurrently on the same system, and each process appears
+to have exclusive use of the hardware. By concurrently, we mean that the instruc-
+tions of one process are interleaved with the instructions of another process. In
+most systems, there are more processes to run than there are CPUs to run them,
+
+Traditional systems could only execute one program at a time, while newer multi-
+core processors can execute several programs simultaneously. In either case, a
+single CPU can appear to execute multiple processes concurrently by having the
+processor switch among them. The operating system performs this interleaving
+with a mechanism known as context switching.
+
+### Threads
+Although we normally think of a process as having a single control flow, in modern
+systems a process can actually consist of multiple execution units, called threads,
+each running in the context of the process and sharing the same code and global
+data. Threads are an increasingly important programming model because of the
+requirement for concurrency in network servers, because it is easier to share data
+between multiple threads than between multiple processes, and because threads
+are typically more efficient than processes. Multi-threading is also one way to make
+programs run faster when multiple processors are available.
+
+### Virtual Memory
