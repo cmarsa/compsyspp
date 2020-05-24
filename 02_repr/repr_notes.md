@@ -111,7 +111,87 @@ the process on `q`.
 
 Conversely, to convert a hexadecimal number to decimal, we can multiply
 each of the hexadecimal digits by the appropriate power of 16. For example, given
-the number 0x7AF, we compute its decimal equivalent as
+the number 0x7AF, swe compute its decimal equivalent as
 `7 * 16 2 + 10 * 16 + 15 = 7 * 256 + 10 * 16 + 15 = 1,792 + 160 + 15 = 1,967.`
 
 ## Data Sizes
+Every computer has a __word size__, indicating the nominal size of pointer data.
+Since a virtual address is encoded by such a word the most important system parameter
+determiend by the word size is the maxium size of the virtual address space.
+That is, for a machine with a _w_-bit word size, the virtual addresses can range
+from 0 to `2^w - 1`, giving the program access toat most `2^w` bytes.
+
+In recent years, there has been a widespread shift from machines with 32-
+bit word sizes to those with word sizes of 64 bits. This occurred first for high-end
+machines designed for large-scale scientific and database applications, followed
+by desktop and laptop machines, and most recently for the processors found in
+smartphones. A 32-bit word size limits the virtual address space to 4 gigabytes
+(written 4 GB), that is, just over 4 × 10 9 bytes. Scaling up to a 64-bit word size
+leads to a virtual address space of 16 exabytes, or around 1.84 × 10 19 bytes.
+
+To avoid the vagaries of relying on “typical” sizes and different compiler set-
+tings, ISO C99 introduced a class of data types where the data sizes are fixed
+regardless of compiler and machine settings. Among these are data types `int32_t`
+and `int64_t`, having exactly 4 and 8 bytes, respectively. Using fixed-size integer
+types is the best way for programmers to have close control over data represen-
+tations.
+
+### Addressing and Byte Ordering
+For program objects that span multiple bytes, we must establish two conventions:
+what the address of the object will be, and how we will order the bytes in memory.
+In virtually all machines, a multi-byte object is stored as a contiguous sequence
+of bytes, with the address of the object given by the smallest address of the bytes
+used. For example, suppose a variable `x` of type int has address `0x100`; that is, the
+value of the address expression &`x` is `0x100`. Then (assuming data type int has a
+32-bit representation) the 4 bytes of `x` would be stored in memory locations `0x100`,
+`0x101`, `0x102`, and `0x103`.
+
+For ordering the bytes representing an object, there are two common conven-
+tions. Consider a w-bit integer having a bit representation `[x_w−1 , x_w−2 , . . . , x_1 , x_0 ]`,
+where `x_w−1` is the most significant bit and `x_0` is the least. Assuming `w` is a multiple
+of 8, these bits can be grouped as bytes, with the most significant byte having bits
+`[x_w−1 , x_w−2 , . . . , x_w−8 ]`, the least significant byte having bits `[x_7 , x_6 , . . . , x_0 ]`, and
+the other bytes having bits from the middle. Some machines choose to store the ob-
+ject in memory ordered from least significant byte to most, while other machines
+store them from most to least. The former convention—where the least significant
+byte comes first—is referred to as _little endian_. The latter convention—where the
+most significant byte comes first—is referred to as _big endian_.
+
+Suppose the variable x of type int and at address 0x100 has a hexadecimal
+value of 0x01234567. The ordering of the bytes within the address range 0x100
+through 0x103 depends on the type of machine:
+
+```
+Big endian:
+            | 0x100 | 0x101 | 0x102 | 0x103 |
+__ . . . ___|   01  |   23  |   45  |   67  |____ . . . __
+
+Little endian:
+            | 0x100 | 0x101 | 0x102 | 0x103 |
+__ . . . ___|   67  |   45  |   23  |   01  |____ . . . __
+```
+
+Note that in the word `0x01234567` the high-order byte has hexadecimal value
+`0x01`, while the low-order byte has value `0x67`.
+Most Intel-compatible machines operate exclusively in little-endian mode. On
+the other hand, most machines from IBM and Oracle (arising from their acquisition
+tion of Sun Microsystems in 2010) operate in big-endian mode.Note that we said
+“most.” The conventions do not split precisely along corporate boundaries. For
+example, both IBM and Oracle manufacture machines that use Intel-compatible
+processors and hence are little endian. Many recent microprocessor chips are
+bi-endian, meaning that they can be configured to operate as either little- or
+big-endian machines. In practice, however, byte ordering becomes fixed once a
+particular operating system is chosen.
+For example, ARM microprocessors, used
+in many cell phones, have hardware that can operate in either little- or big-endian
+mode, but the two most common operating systems for these chips—Android
+(from Google) and IOS (from Apple)—operate only in little-endian mode.
+People get surprisingly emotional about which byte ordering is the proper one.
+In fact, the terms “little endian” and “big endian” come from the book Gulliver’s
+Travels by Jonathan Swift, where two warring factions could not agree as to how a
+soft-boiled egg should be opened—by the little end or by the big. Just like the egg
+issue, there is no technological reason to choose one byte ordering convention over
+the other, and hence the arguments degenerate into bickering about sociopolitical
+issues. As long as one of the conventions is selected and adhered to consistently,
+the choice is arbitrary
+
