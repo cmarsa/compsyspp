@@ -22,6 +22,10 @@ void reverse_array(int a[], int count) {
 
 int main (int argc, char *argv[]) {
 
+    if (argc != 2) {
+        printf("Please, insert integer argument (just 1) to sepcify size of array.\n");
+        exit(-1);
+    }
     int array_size = atoi(argv[1]);
     int array[array_size];
 
